@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -28,7 +28,8 @@
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+
+        @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-gray-800">
                         {{ __('Your email address is unverified.') }}
@@ -47,6 +48,17 @@
             @endif
         </div>
 
+        <div>
+            <label class="block" x-data="showImage()">
+                <span class="sr-only">Choose Display Image</span>
+                <input type="file" name="display_image" @change="showPreview(event)"
+                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+{{--                <img id="preview" class="object-cover h-32 mt-2 w-60">--}}
+            </label>
+            @error('image')
+            @enderror
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -62,3 +74,18 @@
         </div>
     </form>
 </section>
+
+{{--<script>--}}
+{{--    function showImage() {--}}
+{{--        return {--}}
+{{--            showPreview(event) {--}}
+{{--                if (event.target.files.length > 0) {--}}
+{{--                    var src = URL.createObjectURL(event.target.files[0]);--}}
+{{--                    var preview = document.getElementById("preview");--}}
+{{--                    preview.src = src;--}}
+{{--                    preview.style.display = "block";--}}
+{{--                }--}}
+{{--            }--}}
+{{--        }--}}
+{{--    }--}}
+{{--</script>--}}
