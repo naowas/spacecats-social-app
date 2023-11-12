@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Like;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,5 +64,20 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        $checkIfLikeExist = Like::where('user_id', $id)
+            ->where('liked_user_id', Auth::id())
+            ->exists();
+
+        if (!$checkIfLikeExist){
+            abort(403);
+        }
+
+        return view('profile.profile',compact('user'));
     }
 }

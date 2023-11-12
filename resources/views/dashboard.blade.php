@@ -1,6 +1,5 @@
 <x-app-layout>
-    <div class="py-12">
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
             <div class="text-center pb-12">
                 <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-900">
                     Meet new friends
@@ -30,8 +29,7 @@
             <div class="mt-4">
                 {{ $users->links() }}
             </div>
-        </section>
-    </div>
+        </div>
 </x-app-layout>
 
 <script>

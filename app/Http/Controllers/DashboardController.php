@@ -11,12 +11,11 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-
         // Get IDs of users that the authenticated user has liked
-        $likedUserIds = $user->likes()->pluck('liked_user_id')->all();
+        $likedUserIds = Auth::user()->likes()->pluck('liked_user_id')->all();
+        $likedUserIds[] = Auth::id();
 
-        // Get profiles that the user hasn't liked
+        // Get profiles that the user hasn't liked, excluding the authenticated user
         $users = User::with('likes')
             ->whereNotIn('id', $likedUserIds)
             ->orderByDesc('id')
@@ -24,6 +23,7 @@ class DashboardController extends Controller
 
         return view('dashboard', compact('users'));
     }
+
 
 
 }

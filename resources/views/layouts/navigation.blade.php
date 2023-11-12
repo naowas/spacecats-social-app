@@ -13,13 +13,57 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Home') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('like.liked-by-me')" :active="request()->routeIs('like.liked-by-me')">
+                        {{ __('My likes') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('like.liked-me')" :active="request()->routeIs('like.liked-me')">
+                        {{ __('People Who Liked me') }}
                     </x-nav-link>
                 </div>
             </div>
 
+
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+
+                <div x-data="{ dropdownOpen: false }" class="relative my-32">
+                    <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block rounded-md bg-white p-2 focus:outline-none">
+                        <svg class="h-5 w-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                        </svg>
+                    </button>
+
+                    <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
+
+                    <div x-show="dropdownOpen" class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20" style="width:20rem;">
+                        <div class="py-2">
+
+                            @foreach(auth()->user()->notifications as $notification)
+
+                                <a href="{{route('profile.show', $notification->data['id'])}}" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+{{--                                    <img class="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar">--}}
+                                    <p class="text-gray-600 text-sm mx-2">
+                                        <span class="font-bold" href="#">{{$notification->data['name']}}</span> liked your profile {{\Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}
+                                    </p>
+                                </a>
+                            @endforeach
+
+
+
+
+                        </div>
+{{--                        <a href="#" class="block bg-gray-800 text-white text-center font-bold py-2">See all notifications</a>--}}
+                    </div>
+                </div>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">

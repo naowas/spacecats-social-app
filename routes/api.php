@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApiAuthController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('auth/login', [ApiAuthController::class, 'authenticateApiUser']);
+
+Route::get('/likes/{user_id}', [LikeController::class, 'getUserLikes']);
+Route::get('/likes/by-gender/{user_id}', [LikeController::class, 'getUserLikesByGender']);
+

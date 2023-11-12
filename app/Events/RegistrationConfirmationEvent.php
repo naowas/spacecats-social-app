@@ -22,7 +22,6 @@ class RegistrationConfirmationEvent
      */
 
     public $user;
-    public string $url;
 
     public function __construct($user)
     {

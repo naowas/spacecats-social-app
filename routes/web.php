@@ -26,9 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
 
     Route::post('/like/{id}',[LikeController::class, 'likeProfile']);
     Route::post('/users',[DashboardController::class, 'users']);
+
+    Route::get('/liked-by-me',[LikeController::class, 'likedByMe'])->name('like.liked-by-me');
+    Route::get('/liked-me',[LikeController::class, 'likedMe'])->name('like.liked-me');
 
 });
 
